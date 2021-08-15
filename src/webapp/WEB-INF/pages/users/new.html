@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Create new User</title>
+</head>
+<body>
+<div>
+<form th:method="POST" th:action="@{/users}" th:object="${user}">
+    <label for="first_name">Enter first name:</label>
+    <input type="text" th:field="*{firstName}" id="first_name">
+    <div style="color: red" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">Name error</div>
+    <br/>
+    <label for="lastName">Enter last name:</label>
+    <input type="text" th:field="*{lastName}" id="lastName">
+    <div style="color: red" th:if="${#fields.hasErrors('lastName')}" th:errors="*{firstName}">Name error</div>
+    <br/>
+    <label for="nickname">Enter nickname:</label>
+    <input type="text" th:field="*{nickname}" id="nickname">
+    <div style="color: red" th:if="${#fields.hasErrors('nickname')}" th:errors="*{nickname}">Name error</div>
+    <br/>
+    <label for="age">Enter age:</label>
+    <input type="text" th:field="*{age}" id="age">
+    <div style="color: red" th:if="${#fields.hasErrors('age')}" th:errors="*{age}">Name error</div>
+    <br/>
+    <label for="email">Enter email:</label>
+    <input type="text" th:field="*{email}" id="email">
+    <div style="color: red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Name error</div>
+    <br/>
+    <input type="submit" value="Create">
+    <br/>
+</form>
+</div>
+<hr/>
+<div>
+<form th:method="GET" th:action="@{/users}">
+    <label for="users_page"></label>
+    <input type="submit" value="Go to users page" id="users_page">
+</form>
+</div>
+<hr/>
+<div>
+<form th:method="GET" th:action="@{/}">
+    <label for="hello_page"></label>
+    <input type="submit" value="Go to hello page" id="hello_page">
+</form>
+</div>
+</body>
+</html>
