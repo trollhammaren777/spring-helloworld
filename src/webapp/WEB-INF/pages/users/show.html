@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User info</title>
+</head>
+<body>
+<div>
+    <p th:text="'User info: '"></p>
+</div>
+<div>
+    <p th:text="'ID: ' + ${user.getId()}">VALUE</p>
+    <P th:text="'User : ' + ${user.getFirstName()} + ' ' + ${user.getLastName()}">VALUE</P>
+    <p th:text="'Nickname: ' + ${user.getNickname()}">VALUE</p>
+    <p th:text="'Age: ' + ${user.getAge()}">VALUE</p>
+    <p th:text="'Email: ' + ${user.getEmail()}">VALUE</p>
+    <p th:text="'Roles: ' + ${user.getRoles()}">VALUE</p>
+</div>
+<div >
+    <div th:if="${loggedInUser.isUserContainingPassedInMethodRole('ADMIN')}">
+        <form th:method="GET"
+              th:action="@{/admin/users}">
+            <label for="users_page"></label>
+            <input type="submit" value="Go to Users page" id ="users_page"/>
+        </form>
+        <hr/>
+        <form th:method="GET"
+              th:action="@{/admin/users/{nickname}/edit(nickname=${user.getUsername()})}"
+              th:object="${user}">
+            <label for="edit"></label>
+            <input type="submit" value="Edit user info" id="edit">
+        </form>
+        <hr/>
+        <form th:method="DELETE"
+              th:action="@{/admin/users/{nickname}(nickname=${user.getUsername()})}">
+            <label for="delete"></label>
+            <input type="submit" value="Delete User" id="delete">
+        </form>
+        <hr/>
+    </div>
+    <div>
+         <form th:method="GET"
+             th:action="@{/logout}">
+                <label for="logout"></label>
+                <input type="submit" value="Logout" id="logout">
+         </form>
+    </div>
+</div>
+</body>
+</html>

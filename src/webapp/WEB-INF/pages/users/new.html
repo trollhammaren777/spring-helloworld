@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Create new User</title>
+</head>
+<body>
+
+<div>
+    <form th:method="POST" th:action="@{/admin/users}" th:object="${user}">
+        <div th:object="${role}">
+            <label for="first_name">Enter first name: </label>
+            <input type="text" th:field="${user.firstName}" id="first_name">
+            <br/>
+            <label for="lastName">Enter last name: </label>
+            <input type="text" th:field="${user.lastName}" id="lastName">
+            <br/>
+            <label for="nickname">Enter nickname: </label>
+            <input type="text" th:field="${user.nickname}" id="nickname">
+            <br/>
+            <label for="age">Enter age: </label>
+            <input type="text" th:field="${user.age}" id="age">
+            <br/>
+            <label for="email">Enter email: </label>
+            <input type="text" th:field="${user.email}" id="email">
+            <br/>
+            <label for="password">Enter password: </label>
+            <input type="text" th:field="${user.password}" id="password">
+            <br/>
+            <div>
+            <label for="roles1"> Enter user role: </label>
+            <input type="text" th:field="${role.roleName}" id="roles1">
+            </div>
+            <br/>
+        </div>
+        <input type="submit" value="Create">
+        <br/>
+    </form>
+</div>
+
+<hr/>
+<div>
+    <form th:method="GET" th:action="@{/admin/users}">
+        <label for="users_page"></label>
+        <input type="submit" value="Go to users page" id="users_page">
+    </form>
+</div>
+
+<hr/>
+<div>
+    <form th:method="GET" th:action="@{/}">
+        <label for="hello_page"></label>
+        <input type="submit" value="Go to hello page" id="hello_page">
+    </form>
+</div>
+
+<hr/>
+<div>
+    <form th:method="GET" th:action="@{/logout}">
+        <label for="logout"></label>
+        <input type="submit" value="Logout" id="logout">
+    </form>
+</div>
+</body>
+</html>

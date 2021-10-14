@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>All users</title>
+</head>
+<body>
+
+<div>
+    <p th:text="'Users:'"></p>
+</div>
+
+<div th:object="${users}">
+    <div th:object="${roles}">
+<table>
+    <thead>
+        <tr>
+            <th>User ID</th>
+            <th>E-mail</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Roles</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="user: ${users}">
+            <td th:text="${user.id}">User ID</td>
+            <td th:text="${user.email}">E-mail</td>
+            <td th:text="${user.firstName}">First Name</td>
+            <td th:text="${user.lastName}">Last Name</td>
+            <td th:text="${user.roles}">Roles</td>
+            <td><a th:href="@{/admin/users/{nickname}(nickname=${user.nickname})}">See all info about user</a></td>
+        </tr>
+    </tbody>
+</table>
+    </div>
+</div>
+
+<br/>
+<div>
+    <table>
+        <thead>
+            <tr>
+                <th>Role ID</th>
+                <th>Role Name</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="role: ${roles}">
+                <td th:text="${role.id}">User ID</td>
+                <td th:text="${role.roleName}">E-mail</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div>
+    <p><b>Currently logged in users</b></p>
+    <div th:each="user1 : ${loggedInUser.getUsername()}">
+        <p th:text="${user1}">user</p>
+    </div>
+</div>
+
+<hr/>
+<div>
+<form th:method="GET" th:action="@{/admin/new}">
+    <label for="create_new_user"></label>
+    <input type="submit" value="Create new User" id="create_new_user">
+</form>
+</div>
+
+<hr/>
+<div>
+    <form th:method="GET" th:action="@{/admin}">
+        <label for="admin_page"></label>
+        <input type="submit" value="Go to Admin Page" id="admin_page">
+    </form>
+</div>
+
+<hr/>
+<div>
+<form th:method="GET" th:action="@{/}">
+    <label for="hello_page"></label>
+    <input type="submit" value="Go to Hello Page" id="hello_page">
+</form>
+</div>
+
+<hr/>
+<div>
+    <form th:method="GET" th:action="@{/logout}">
+        <label for="logout"></label>
+        <input type="submit" value="Logout" id="logout">
+    </form>
+</div>
+</body>
+</html>
