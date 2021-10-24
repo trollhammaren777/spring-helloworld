@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit User info</title>
+</head>
+<body>
+<br/>
+
+<div>
+<form th:method="PATCH" th:action="@{/admin/users/{nickname}(nickname=${user.getNickname()})}" th:object="${user}">
+    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+    <div th:object="${Role}">
+    <label for="first_name">New first name: </label>
+    <input type="text" th:field="${user.firstName}" id="first_name">
+    <br/>
+    <label for="last_name">New last name: </label>
+    <input type="text" th:field="${user.lastName}" id="last_name">
+    <br/>
+    <label for="nickname">New nickname: </label>
+    <input type="text" th:field="${user.nickname}" id="nickname">
+    <br/>
+    <label for="age">New age: </label>
+    <input type="text" th:field="${user.age}" id="age">
+    <br/>
+    <label for="email">New email: </label>
+    <input type="text" th:field="${user.email}" id="email">
+    <br/>
+    <label for="password">New password: </label>
+    <input type="text" th:field="${user.password}" id="password">
+    <p th:text="'User roles:' + ${user.roles}">VALUE</p>
+    <label for="roles"> Enter new role which will add to picked User's roles or enter 'RESET_ROLES' to reset user roles: </label>
+    <input type="text" th:field="${Role.roleName}" id="roles">
+    <br/>
+    </div>
+    <input type="submit" value="Submit changes"/>
+    <br/>
+</form>
+</div>
+
+<hr/>
+<div>
+<form th:method="GET" th:action="@{/admin/users}">
+    <label for="users_page"></label>
+    <input type="submit" value="Go to Users Page" id="users_page">
+</form>
+</div>
+
+<hr/>
+<div>
+    <form th:method="GET" th:action="@{/logout}">
+        <label for="logout"></label>
+        <input type="submit" value="Logout" id="logout">
+    </form>
+</div>
+</body>
+</html>

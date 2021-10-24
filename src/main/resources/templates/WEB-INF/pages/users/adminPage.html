@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Page</title>
+</head>
+<body>
+
+<div>
+    <th:block th:each="msg1: ${messagesForAdmin}">
+        <h1 th:text="${msg1}"></h1>
+    </th:block>
+</div>
+
+<div>
+    <p th:text="'ID: ' + ${user.getId()}">VALUE</p>
+    <P th:text="'User : ' + ${user.getFirstName()} + ' ' + ${user.getLastName()}">VALUE</P>
+    <p th:text="'Nickname: ' + ${user.getNickname()}">VALUE</p>
+    <p th:text="'Age: ' + ${user.getAge()}">VALUE</p>
+    <p th:text="'Email: ' + ${user.getEmail()}">VALUE</p>
+    <p th:text="'Roles: ' + ${user.getRoles()}">VALUE</p>
+</div>
+
+<div>
+    <hr/>
+    <form th:method="GET" th:action="@{/admin/users/}">
+        <label for="users_page"></label>
+        <input type="submit" value="Go to users page" id ="users_page"/>
+    </form>
+</div>
+
+<hr/>
+<div>
+    <form th:method="GET" th:action="@{/logout}">
+        <label for="logout"></label>
+        <input type="submit" value="Logout" id="logout">
+    </form>
+</div>
+
+</body>
+</html>
