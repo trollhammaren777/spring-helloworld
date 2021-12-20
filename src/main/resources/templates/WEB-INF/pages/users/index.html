@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" class="html-custom"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+            integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
+            crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" th:href="@{/static/css/style1.css}" type="text/css" media="all">
+    <title>All users</title>
+  </head>
+  <body>
+    <header>
+      <nav class="navbar navbar-dark bg-dark">
+        <div class="d-flex justify-content-md-start">
+          <a class="navbar-brand" href="#"
+             th:utext="'&lt;strong&gt;' + ${loggedInUser.email} + '&lt;/strong&gt; with roles: ' + ${loggedInUser.roles}">
+            Info about logged-in user
+          </a>
+        </div>
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+          <a class="navbar-brand a-custom" href="/logout">Logout</a>
+        </div>
+      </nav>
+    </header>
+    <div class="row row-custom">
+      <div id="sidebar" class="col-md-2 col-md-2-custom">
+        <div class="align-items-start">
+          <div sec:authorize="hasRole('ADMIN')">
+            <div class="nav nav-pills" id="admin-list-tab" role="tablist" aria-orientation="vertical">
+              <a href="#admin-page" th:href="@{/admin/users}" class="custom-sidebar-link">
+                <button class="nav-link active sidebar-button-custom" id="admin-tab" data-bs-toggle="pill" data-bs-target="#admin" type="button" role="tab" aria-controls="admin" aria-selected="true">Admin</button>
+              </a>
+            </div>
+            <div class="nav nav-pills" id="user-list-tab" role="tablist" aria-orientation="vertical">
+              <a href="#user-info" class="custom-sidebar-link" th:href="@{/user/{nickname}(nickname=${loggedInUser.nickname})}">
+                <button class="nav-link sidebar-button-custom" id="user-user-profile-tab" data-bs-toggle="pill" data-bs-target="#user-user-profile" type="button" role="tab" aria-controls="user-user-profile" aria-selected="false">User</button>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="admin-page" class="col-md-10 custom-col-md-10">
+        <div class="h-top-page">
+          <h1>Admin panel</h1>
+        </div>
+        <div id="page-content-accordion">
+          <ul class="nav nav-tabs" data-tabs="tabs">
+            <li class="nav-item" id="first-tab">
+              <a class="nav-link active" data-bs-toggle="tab" href="#users-table">Users table</a>
+            </li>
+            <li class="nav-item" id="second-tab">
+              <a class="nav-link" data-bs-toggle="tab" href="#create-new-user">New User</a>
+            </li>
+          </ul>
+          <div class="tab-content">
+            <div class="tab-pane fade show active" id="users-table">
+              <nav class="navbar navbar-light bg-light custom-nav">
+                <div class="container-fluid">
+                  <span class="navbar-brand mb-0 h1 span-top-table">All users</span>
+                </div>
+              </nav>
+              <div class="card card-body">
+                <div>
+                  <table class="table table-striped table-custom">
+                    <thead class="thead-custom">
+                      <tr class="tr-top-table-custom">
+                        <th class="th-table">ID</th>
+                        <th class="th-table">First Name</th>
+                        <th class="th-table">Last Name</th>
+                        <th class="th-table">Age</th>
+                        <th class="th-table">E-mail</th>
+                        <th class="th-table">Role</th>
+                        <th class="th-table">Edit</th>
+                        <th class="th-table">Delete</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr th:if="${userWrapper.getUsers().isEmpty()}">
+                        <td class="text-center" colspan="3">No records about users found.</td>
+                      </tr>
+                      <tr th:each="userToBeUpdated, stat: ${userWrapper.users}">
+                        <td class="td-table" th:text="${userToBeUpdated.id}">User ID</td>
+                        <td class="td-table" th:text="${userToBeUpdated.firstName}">First Name</td>
+                        <td class="td-table" th:text="${userToBeUpdated.lastName}">Last Name</td>
+                        <td class="td-table" th:text="${userToBeUpdated.age}">Age</td>
+                        <td class="td-table" th:text="${userToBeUpdated.email}">E-mail</td>
+                        <td class="td-table" th:text="${userToBeUpdated.roles}">Roles</td>
+                        <td class="td-table">
+                          <button type="button" class="btn btn-info"
+                                  data-bs-toggle="modal"
+                                  data-bs-target="#edit-user"
+                                  th:attrappend="data-bs-target=${stat.index}">Edit
+                          </button>
+                          <div class="modal-dialog modal-dialog-centered custom">
+                            <div class="modal fade" id="edit-user"
+                                 role="dialog" aria-labelledby="exampleModalCenterTitle"
+                                 aria-hidden="true"
+                                 th:attrappend="id=${stat.index}">
+                              <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLongTitleEditUser">Edit user</h5>
+                                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                      <span aria-hidden="false">&times;</span>
+                                    </button>
+                                  </div>
+                                  <div class="modal-body">
+                                    <form class="align-items-center" role="form" action="#" th:method="PUT"
+                                          th:action="@{/admin/users/{nickname}(nickname=${userWrapper.users[__${stat.index}__].nickname})}"
+                                          th:object="${userWrapper.users[__${stat.index}__]}">
+                                      <fieldset>
+                                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                                        <div class="form-group col-md-6">
+                                          <label class="label-form" for="id">ID</label>
+                                          <input type="text" class="form-control"
+                                                 th:field="${userWrapper.users[__${stat.index}__].id}" id="id" readonly>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                          <label class="label-form" for="first_name">First name</label>
+                                          <input type="text" class="form-control"
+                                                 th:field="${userWrapper.users[__${stat.index}__].firstName}"
+                                                 id="first_name">
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                          <label class="label-form" for="last_name">Last name</label>
+                                          <input type="text" class="form-control"
+                                                 th:field="${userWrapper.users[__${stat.index}__].lastName}" id="last_name">
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                          <label class="label-form" for="nickname">Nickname</label>
+                                          <input type="text" class="form-control"
+                                                 th:field="${userWrapper.users[__${stat.index}__].nickname}" id="nickname">
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                          <label class="label-form" for="age">Age</label>
+                                          <input type="number" min="0" max="130" step="1" class="form-control"
+                                                 th:field="${userWrapper.users[__${stat.index}__].age}" id="age">
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                          <label class="label-form" for="email">Email</label>
+                                          <input type="text" class="form-control"
+                                                 th:field="${userWrapper.users[__${stat.index}__].email}" id="email">
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                          <label class="label-form" for="password">Password</label>
+                                          <input type="text" class="form-control"
+                                                 th:field="${userWrapper.users[__${stat.index}__].password}" id="password">
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                          <label class="label-form" for="new_role">Role</label>
+                                          <select multiple class="form-select" size="3" id="new_role" required
+                                                  th:field="${newRole.roleName}">
+                                            <option value="USER">USER</option>
+                                            <option value="ADMIN">ADMIN</option>
+                                            <option value="RESET_ROLES">RESET ROLES</option>
+                                          </select>
+                                        </div>
+                                      </fieldset>
+                                      <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close
+                                        </button>
+                                        <button type="submit" class="btn btn-primary">Edit</button>
+                                      </div>
+                                    </form>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                        <td class="td-table">
+                          <button type="button" class="btn btn-danger"
+                                  data-bs-toggle="modal"
+                                  data-bs-target="#delete-user"
+                                  th:attrappend="data-bs-target=${stat.index}">Delete
+                          </button>
+                          <div class="modal-dialog modal-dialog-centered custom">
+                            <div class="modal fade" id="delete-user"
+                                 role="dialog" aria-labelledby="exampleModalCenterTitleDeleteUser"
+                                 aria-hidden="true"
+                                 th:attrappend="id=${stat.index}">
+                              <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLongTitle">Edit user</h5>
+                                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                      <span aria-hidden="false">&times;</span>
+                                    </button>
+                                  </div>
+                                  <div class="modal-body">
+                                    <form role="form" action="#" th:method="DELETE"
+                                          th:action="@{/admin/users/{nickname}(nickname=${userToBeUpdated.nickname})}">
+                                      <fieldset>
+                                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                                        <div class="form-group col-md-6">
+                                          <label class="label-form" for="id_delete">ID</label>
+                                          <input type="text" class="form-control"
+                                                 th:field="${userWrapper.users[__${stat.index}__].id}" id="id_delete"
+                                                 readonly>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                          <label class="label-form" for="first_name_delete">First name</label>
+                                          <input type="text" class="form-control"
+                                                 th:field="${userWrapper.users[__${stat.index}__].firstName}"
+                                                 id="first_name_delete" readonly>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                          <label class="label-form" for="last_name_delete">Last name</label>
+                                          <input type="text" class="form-control"
+                                                 th:field="${userWrapper.users[__${stat.index}__].lastName}"
+                                                 id="last_name_delete" readonly>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                          <label class="label-form" for="nickname_delete">Nickname</label>
+                                          <input type="text" class="form-control"
+                                                 th:field="${userWrapper.users[__${stat.index}__].nickname}"
+                                                 id="nickname_delete" readonly>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                          <label class="label-form" for="age_delete">Age</label>
+                                          <input type="number" min="0" max="130" step="1" class="form-control"
+                                                 th:field="${userWrapper.users[__${stat.index}__].age}" id="age_delete"
+                                                 readonly>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                          <label class="label-form" for="email_delete">Email</label>
+                                          <input type="text" class="form-control"
+                                                 th:field="${userWrapper.users[__${stat.index}__].email}" id="email_delete"
+                                                 readonly>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                          <label class="label-form" for="password_delete">Password</label>
+                                          <input type="text" class="form-control"
+                                                 th:field="${userWrapper.users[__${stat.index}__].password}"
+                                                 id="password_delete" readonly>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                          <label class="label-form" for="new_role_delete">Role</label>
+                                          <select multiple class="form-select" size="3" id="new_role_delete" required
+                                                  th:field="${newRole.roleName}" disabled>
+                                            <option value="USER">USER</option>
+                                            <option value="ADMIN">ADMIN</option>
+                                            <option value="RESET_ROLES">RESET ROLES</option>
+                                          </select>
+                                        </div>
+                                      </fieldset>
+                                      <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close
+                                        </button>
+                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                      </div>
+                                    </form>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div class="tab-pane fade" id="create-new-user">
+              <div class="align-items-center">
+                <nav class="navbar navbar-light bg-light custom-nav">
+                  <div class="container-fluid">
+                    <span class="navbar-brand mb-0 h1 span-top-table">Add new user</span>
+                  </div>
+                </nav>
+                <div class="card card-body">
+                  <form class="align-items-center" role="form" th:method="POST" th:action="@{/admin/users}"
+                        th:object="${newUser}">
+                    <div th:object="${newRole}">
+                      <div class="form-group col-md-3">
+                        <label class="label-form" for="first_name_new_user">First name</label>
+                        <input class="form-control" type="text" th:field="${newUser.firstName}" id="first_name_new_user">
+                      </div>
+                      <div class="form-group col-md-3">
+                        <label class="label-form" for="last_name_new_user">Last name</label>
+                        <input class="form-control" type="text" th:field="${newUser.lastName}" id="last_name_new_user">
+                      </div>
+                      <div class="form-group col-md-3">
+                        <label class="label-form" for="nickname_new_user">Nickname</label>
+                        <input class="form-control" type="text" th:field="${newUser.nickname}" id="nickname_new_user">
+                      </div>
+                      <div class="form-group col-md-3">
+                        <label class="label-form" for="age_new_user">Age</label>
+                        <input class="form-control" type="number" min="0" max="130" step="1" th:field="${newUser.age}"
+                               id="age_new_user">
+                      </div>
+                      <div class="form-group col-md-3">
+                        <label class="label-form" for="email_new_user">Email</label>
+                        <input class="form-control" type="text" th:field="${newUser.email}" id="email_new_user">
+                      </div>
+                      <div class="form-group col-md-3">
+                        <label class="label-form" for="password_new_user">Password</label>
+                        <input class="form-control" type="text" th:field="${newUser.password}" id="password_new_user">
+                      </div>
+                      <div class="form-group col-md-3">
+                        <label class="label-form" for="new_role_new_user">Role</label>
+                        <select multiple class="form-select" size="3" id="new_role_new_user" required
+                                th:field="${newRole.roleName}">
+                          <option value="USER">USER</option>
+                          <option value="ADMIN">ADMIN</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="form-group col-md-3 button-for-new-user">
+                      <button type="submit" class="btn btn-success">Add new user</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,103 @@
+.form-group.col-md-6 {
+    margin: auto;
+    text-align: center;
+    padding: 5px;
+}
+
+.span-top-table {
+    margin-left: 1rem;
+}
+
+.h-top-page {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.form-group.col-md-3 {
+    margin: auto;
+    text-align: center;
+    padding: 5px;
+}
+
+.label-form {
+    font-weight: bold;
+}
+
+.modal-dialog.modal-dialog-centered.custom {
+    margin: 0;
+}
+
+.td-table {
+    vertical-align: middle;
+    border-style: none;
+}
+
+.button-for-new-user {
+    margin: auto;
+}
+
+.col-md-10.custom-col-md-10 {
+    background-color: #f8f9fa;
+    padding-left: 2rem;
+    padding-right: 12rem;
+}
+
+.navbar.navbar-light.bg-light.custom-nav {
+    border-left: 1px solid rgba(0,0,0,.125);
+    border-right: 1px solid rgba(0,0,0,.125);
+    border-radius: 0.25rem;
+}
+
+.navbar.navbar-light.bg-light.custom-nav-show-user {
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: 0.25rem;
+}
+
+html, body {
+    height: 100%;
+}
+
+.html-custom {
+    height: 100%;
+}
+
+.row.row-custom {
+    height: 93%;
+    --bs-gutter-x: none;
+}
+
+.navbar-brand.a-custom {
+    color: darkgray;
+}
+
+.col-md-2-custom {
+    padding-right: 0;
+    padding-top: 1rem;
+}
+
+.tr-top-table-custom {
+    border-color: rgba(0,0,0,.125);
+    border-bottom: 1px solid rgba(0, 0, 0, .125);
+    border-radius: 0.25rem;
+    border-top: 1px solid rgba(0, 0, 0, .125);
+    width: 50px;
+}
+
+.table-custom > thead > tr > th {
+    border-bottom: none;
+}
+
+.th-table {
+    vertical-align: middle;
+    text-align: left;
+}
+
+.custom-sidebar-link {
+    width: 100%;
+    text-decoration: none;
+}
+
+.sidebar-button-custom {
+    width: 100%;
+    text-align: left;
+}
