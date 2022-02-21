@@ -8,6 +8,4 @@ import java.util.List;
 public interface RoleService {
     @Transactional(readOnly = true)
     List<Role> findAll();
-    @Transactional(readOnly = true)
-    Role findByRoleNameOrNull(String roleName);
 }

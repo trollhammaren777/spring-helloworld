@@ -22,10 +22,4 @@ public class RoleServiceImpl implements RoleService {
     public List<Role> findAll() {
         return roleDao.findAll();
     }
-
-    @Transactional(readOnly = true)
-    @Override
-    public Role findByRoleNameOrNull(String roleName) {
-        return roleDao.findByRoleNameOrNull(roleName);
-    }
 }
